@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcane Kingdom Academy | Premium Dark Fantasy Experience</title>
+  <meta name="description" content="Enter the realm of ancient magic. Discover forgotten spells, legendary characters, interactive maps, and the royal marketplace of the Arcane Kingdom.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Cinematic Gate Overlay (Intro Screen) -->
+  <div id="gate-overlay">
+    <div class="gate-half left">
+      <svg class="gate-door-svg" viewBox="0 0 100 200" preserveAspectRatio="none">
+        <!-- Intricate gate pattern (Left door) -->
+        <path d="M 100 0 L 100 200 L 0 200 L 0 50 C 0 20, 40 10, 100 0 Z" />
+        <path d="M 100 20 C 80 30, 40 50, 40 90 C 40 130, 80 150, 100 160" />
+        <path d="M 100 50 C 90 60, 60 80, 60 110 C 60 140, 90 155, 100 160" />
+        <path d="M 100 80 A 20 20 0 0 0 80 100 A 20 20 0 0 0 100 120" />
+        <path d="M 0 50 L 100 90 M 0 150 L 100 130" />
+      </svg>
+    </div>
+    
+    <!-- Central Rune HUD for Gate Unlock -->
+    <div class="gate-overlay-content" id="gate-hud">
+      <div class="gate-rune-circle"></div>
+      <h2>Arcane Kingdom</h2>
+      <button class="enter-instructions" id="enter-btn">✦ Enter Kingdom ✦</button>
+    </div>
+
+    <div class="gate-half right">
+      <svg class="gate-door-svg" viewBox="0 0 100 200" preserveAspectRatio="none">
+        <!-- Intricate gate pattern (Right door) -->
+        <path d="M 0 0 L 0 200 L 100 200 L 100 50 C 100 20, 60 10, 0 0 Z" />
+        <path d="M 0 20 C 20 30, 60 50, 60 90 C 60 130, 20 150, 0 160" />
+        <path d="M 0 50 C 10 60, 40 80, 40 110 C 40 140, 10 155, 0 160" />
+        <path d="M 0 80 A 20 20 0 0 1 20 100 A 20 20 0 0 1 0 120" />
+        <path d="M 100 50 L 0 90 M 100 150 L 0 130" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Premium Transparent Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand" id="brand-home">
+      <!-- Animated Logo SVG -->
+      <svg class="nav-logo-svg" viewBox="0 0 100 100">
+        <polygon points="50,10 90,85 10,85" fill="none" stroke="#d4af37" stroke-width="4"/>
+        <circle cx="50" cy="55" r="22" fill="none" stroke="#00f0ff" stroke-width="3"/>
+        <polygon points="50,25 75,70 25,70" fill="none" stroke="#d4af37" stroke-width="2"/>
+        <circle cx="50" cy="55" r="5" fill="#d4af37"/>
+      </svg>
+      <span class="nav-logo-text">Arcane Academy</span>
+    </div>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#hero" class="active">Home</a></li>
+      <li><a href="#academy">Academy</a></li>
+      <li><a href="#map">Kingdom Map</a></li>
+      <li><a href="#characters">Characters</a></li>
+      <li><a href="#library">Library</a></li>
+      <li><a href="#marketplace">Marketplace</a></li>
+    </ul>
+
+    <!-- User Profile HUD -->
+    <div class="user-profile-hud" id="profile-hud" style="display: none;">
+      <div class="hud-avatar" id="hud-avatar-icon" title="View Student Records">🧙</div>
+      <div class="hud-stats">
+        <div class="hud-username-row">
+          <span id="hud-username" class="font-fantasy">Student</span>
+          <span class="hud-house-badge" id="hud-house-badge">Ignis</span>
+        </div>
+        <div class="hud-xp-row">
+          <span class="hud-level" id="hud-level">Lvl 1</span>
+          <div class="hud-xp-bar-container">
+            <div class="hud-xp-bar-fill" id="hud-xp-fill" style="width: 0%;"></div>
+          </div>
+          <span class="hud-rank" id="hud-rank">Novice</span>
+        </div>
+      </div>
+      <button class="inventory-toggle-btn" id="inventory-toggle" title="View Inventory Chest">🎒</button>
+    </div>
+
+    <div class="nav-audio-controls">
+      <div class="audio-visualizer" id="audio-visualizer">
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+      </div>
+      <button class="audio-toggle-btn" id="audio-toggle" title="Toggle Magical Ambient Audio">
+        <!-- Muted Icon -->
+        <svg id="speaker-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <line x1="23" y1="9" x2="17" y2="15" />
+          <line x1="17" y1="9" x2="23" y2="15" />
+        </svg>
+      </button>
+      <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+    </div>
+  </nav>
+
+  <!-- Homepage Hero Section -->
+  <section class="hero-section" id="hero">
+    <div class="hero-bg-wrapper">
+      <img src="assets/hero_castle.jpg" alt="Ancient Royal Castle" class="hero-bg-img">
+      <div class="hero-fog"></div>
+    </div>
+    
+    <!-- Canvas for Floating Particles and Mist -->
+    <canvas class="hero-canvas" id="particle-canvas"></canvas>
+
+    <div class="hero-content" id="hero-content">
+      <div class="hero-badge">
+        <span>✦</span> Kingdom Academy Open <span>✦</span>
+      </div>
+      <h1 class="hero-title">Enter the Realm<br>of Ancient Magic</h1>
+      <p class="hero-subtitle">Discover forgotten spells, legendary warriors, mystical knowledge, and the secrets of the Arcane Kingdom.</p>
+      
+      <div class="hero-actions">
+        <a href="#academy" class="btn-fantasy btn-primary" id="btn-enter-academy">
+          <span>✨ Enter Academy</span>
+        </a>
+        <a href="#map" class="btn-fantasy btn-secondary" id="btn-explore-map">
+          <span>🏰 Explore Kingdom</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="hero-scroll-indicator" id="scroll-arrow">
+      <span class="scroll-text">Scroll Down</span>
+      <span class="scroll-rune">▼</span>
+    </div>
+  </section>
+
+  <!-- Wizard Academy Portal Section -->
+  <section class="section-wrapper" id="academy">
+    <div class="section-header">
+      <span class="section-subtitle">Wizard Tower</span>
+      <h2 class="section-title">Academy Portals</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">Unlock hidden powers and study alchemical arts within the floating sanctums of the Wizard Academy.</p>
+    </div>
+
+    <div class="academy-grid">
+      <!-- Spell Library Card -->
+      <div class="academy-card glass-panel" id="card-spell-lib" data-bg="assets/spell_library_bg.png">
+        <div class="card-bg-overlay" style="background-image: url('assets/spell_library_bg.png')"></div>
+        <canvas class="card-interactive-canvas" id="spell-canvas"></canvas>
+        <div class="floating-runes-container">
+          <svg class="rotating-rune-svg" viewBox="0 0 100 100">
+            <circle cx="50" cy="55" r="30" fill="none" stroke="#d4af37" stroke-width="2" stroke-dasharray="10 6"/>
+            <polygon points="50,15 85,75 15,75" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="card-icon">🪄</div>
+        <h3>Spell Library</h3>
+        <p>Decipher ancient wizard codexes, practice kinetic forces, and cast projection circles of flame and frost.</p>
+        <button class="card-btn"><span>Open Codex</span> <i>→</i></button>
+      </div>
+
+      <!-- Potion Laboratory Card -->
+      <div class="academy-card glass-panel" id="card-potion-lab" data-bg="assets/potion_lab_bg.png">
+        <div class="card-bg-overlay" style="background-image: url('assets/potion_lab_bg.png')"></div>
+        <canvas class="card-interactive-canvas" id="potion-canvas"></canvas>
+        <div class="floating-runes-container">
+          <svg class="rotating-rune-svg" viewBox="0 0 100 100">
+            <circle cx="50" cy="55" r="30" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="5 5"/>
+            <circle cx="50" cy="55" r="20" fill="none" stroke="#10b981" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="card-icon">🧪</div>
+        <h3>Potion Laboratory</h3>
+        <p>Brew mystical elixirs, manage exothermic reactions, and experiment with colorful alchemical reagents.</p>
+        <button class="card-btn"><span>Brew Elixirs</span> <i>→</i></button>
+      </div>
+
+      <!-- Ancient Knowledge Hall Card -->
+      <div class="academy-card glass-panel" id="card-knowledge-hall" data-bg="assets/ancient_knowledge_bg.png">
+        <div class="card-bg-overlay" style="background-image: url('assets/ancient_knowledge_bg.png')"></div>
+        <canvas class="card-interactive-canvas" id="knowledge-canvas"></canvas>
+        <div class="floating-runes-container">
+          <svg class="rotating-rune-svg" viewBox="0 0 100 100">
+            <circle cx="50" cy="55" r="30" fill="none" stroke="#00f0ff" stroke-width="2"/>
+            <polygon points="50,25 70,65 30,65" fill="none" stroke="#00f0ff" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="card-icon">📜</div>
+        <h3>Knowledge Hall</h3>
+        <p>Explore centuries of archives, decipher royal lineage scrolls, and unearth secrets of ancient elder wars.</p>
+        <button class="card-btn"><span>Read Chronicles</span> <i>→</i></button>
+      </div>
+    </div>
+
+    <!-- Academy Interactive Workspace Hub -->
+    <div class="academy-workspace glass-panel" id="academy-hub" style="margin-top: 50px;">
+      
+      <!-- Workspace Navigation Tabs -->
+      <div class="workspace-tabs">
+        <button class="w-tab-btn active" data-tab="tab-quests">🛡️ Quests Log</button>
+        <button class="w-tab-btn" data-tab="tab-forge">🔥 Spell Forge</button>
+        <button class="w-tab-btn" data-tab="tab-aetherion">🔮 Aetherion AI</button>
+        <button class="w-tab-btn" data-tab="tab-scribe">✍️ Scribe Legends</button>
+      </div>
+
+      <!-- Tab Content 1: Quests Log -->
+      <div class="w-tab-content active" id="tab-quests">
+        <div class="quest-log-wrapper">
+          <h3 class="font-fantasy text-gold">Daily Academy Tasks</h3>
+          <p class="quest-subtitle">Complete alchemical actions around the kingdom to gather XP and gold coins.</p>
+          
+          <div class="quests-container" id="quests-list">
+            <!-- Quest 1 -->
+            <div class="quest-item" id="q-discover-map">
+              <div class="quest-status">
+                <span class="quest-icon">🗺️</span>
+                <div class="quest-details">
+                  <h4>Kingdom Cartography</h4>
+                  <p>Discover 3 coordinates on the map.</p>
+                  <div class="quest-progress"><div class="q-fill" id="q-map-fill" style="width: 0%;"></div></div>
+                  <span class="q-progress-text" id="q-map-text">0/3 Discovered</span>
+                </div>
+              </div>
+              <div class="quest-reward">
+                <span>💰 +40 Gold</span>
+                <span>✨ +100 XP</span>
+                <button class="claim-reward-btn" id="claim-q-map" disabled>Claim</button>
+              </div>
+            </div>
+            
+            <!-- Quest 2 -->
+            <div class="quest-item" id="q-read-library">
+              <div class="quest-status">
+                <span class="quest-icon">📖</span>
+                <div class="quest-details">
+                  <h4>Academic Codexes</h4>
+                  <p>Read a tome from the magical library.</p>
+                  <div class="quest-progress"><div class="q-fill" id="q-read-fill" style="width: 0%;"></div></div>
+                  <span class="q-progress-text" id="q-read-text">0/1 Read</span>
+                </div>
+              </div>
+              <div class="quest-reward">
+                <span>💰 +30 Gold</span>
+                <span>✨ +80 XP</span>
+                <button class="claim-reward-btn" id="claim-q-read" disabled>Claim</button>
+              </div>
+            </div>
+
+            <!-- Quest 3 -->
+            <div class="quest-item" id="q-forge-spell">
+              <div class="quest-status">
+                <span class="quest-icon">🪄</span>
+                <div class="quest-details">
+                  <h4>Alchemical Forge</h4>
+                  <p>Forge a custom spell in the Spell Forge.</p>
+                  <div class="quest-progress"><div class="q-fill" id="q-spell-fill" style="width: 0%;"></div></div>
+                  <span class="q-progress-text" id="q-spell-text">0/1 Forged</span>
+                </div>
+              </div>
+              <div class="quest-reward">
+                <span>💰 +50 Gold</span>
+                <span>✨ +120 XP</span>
+                <button class="claim-reward-btn" id="claim-q-spell" disabled>Claim</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 2: Spell Forge -->
+      <div class="w-tab-content" id="tab-forge">
+        <div class="spell-forge-wrapper">
+          <div class="spell-forge-form">
+            <h3 class="font-fantasy text-gold">Spell Weaver Workshop</h3>
+            <p>Combine element essences and channel raw magic to create visual codex spellcards.</p>
+            
+            <div class="forge-input-group">
+              <label for="spell-name-input">Spell Name</label>
+              <input type="text" id="spell-name-input" placeholder="e.g. Incineration Blast" class="forge-input">
+            </div>
+
+            <div class="forge-input-group">
+              <label for="spell-element-select">Magic Element</label>
+              <select id="spell-element-select" class="forge-input">
+                <option value="Fire">🔥 Fire Element</option>
+                <option value="Ice">❄️ Ice Element</option>
+                <option value="Storm">⚡ Storm Element</option>
+                <option value="Shadow">💀 Shadow Element</option>
+                <option value="Nature">🍃 Nature Element</option>
+                <option value="Aether">✨ Aether Element</option>
+              </select>
+            </div>
+
+            <div class="forge-input-group">
+              <label for="spell-power-input">Chained Power Level: <span id="spell-power-val">50</span></label>
+              <input type="range" id="spell-power-input" min="1" max="100" value="50" class="forge-range">
+            </div>
+
+            <div class="forge-input-group">
+              <label for="spell-desc-input">Spell Manifestation Description</label>
+              <textarea id="spell-desc-input" placeholder="Describe what happens when the spell is cast..." class="forge-textarea"></textarea>
+            </div>
+
+            <button class="forge-submit-btn" id="forge-spell-btn">✦ Forge Spell Card ✦</button>
+          </div>
+          
+          <div class="spell-forge-shelf">
+            <h3 class="font-fantasy text-cyan">My Spellbook Codex</h3>
+            <div class="spells-grid" id="spells-shelf-grid">
+              <p class="empty-codex-text" id="empty-codex-text">No spells forged yet. Channel magic to populate your shelf.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Aetherion AI Chat -->
+      <div class="w-tab-content" id="tab-aetherion">
+        <div class="aetherion-chat-wrapper">
+          <div class="aetherion-avatar-pane">
+            <div class="aetherion-orb-container">
+              <div class="aetherion-pulsing-orb"></div>
+              <div class="aetherion-runes-ring"></div>
+            </div>
+            <h4 class="font-fantasy text-gold">Aetherion</h4>
+            <span class="aetherion-status">The Eternal Wizard</span>
+            
+            <p class="aetherion-bio-text">Aetherion is an ancient projection of energy bound to the castle foundations. Ask him to generate stories, teach spells, or guide your classes.</p>
+            
+            <button class="api-key-config-btn" id="api-key-config-btn">⚙️ Configure API Key</button>
+          </div>
+
+          <div class="aetherion-chat-pane">
+            <div class="chat-messages-container" id="chat-messages">
+              <div class="message wizard">
+                <span class="msg-sender">Aetherion:</span>
+                <p>Welcome to the Academy workspace, young scholar. I am Aetherion, watcher of the timelines. What magical mystery shall we resolve today? You may query me about ancient rifts, potion brewing formulas, or request spell formulas.</p>
+              </div>
+            </div>
+            
+            <div class="chat-chips-row">
+              <button class="chat-chip-btn">Tell me castle history</button>
+              <button class="chat-chip-btn">Generate a lightning spell</button>
+              <button class="chat-chip-btn">How do I level up?</button>
+            </div>
+
+            <div class="chat-input-row">
+              <input type="text" id="chat-user-input" placeholder="Scribe a query to Aetherion..." class="chat-input-field">
+              <button class="chat-send-btn" id="chat-send-btn">Send ✦</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 4: Scribe CMS (Add Books) -->
+      <div class="w-tab-content" id="tab-scribe">
+        <div class="scribe-cms-wrapper">
+          <div class="scribe-form">
+            <h3 class="font-fantasy text-gold">Add Library Chronicles</h3>
+            <p>As a senior scribe, you may write new archives, legends, and tutorial guides directly into the kingdom's index.</p>
+            
+            <div class="forge-input-group">
+              <label for="book-title-input">Tome Title</label>
+              <input type="text" id="book-title-input" placeholder="e.g. Chronicles of the Moon" class="forge-input">
+            </div>
+
+            <div class="forge-input-group">
+              <label for="book-category-select">Lore Classification</label>
+              <select id="book-category-select" class="forge-input">
+                <option value="Arcane Codex">Arcane Codex</option>
+                <option value="Lore logs">Lore logs</option>
+                <option value="Alchemy">Alchemy</option>
+                <option value="Dark Arts">Dark Arts</option>
+              </select>
+            </div>
+
+            <div class="forge-input-group">
+              <label for="book-author-input">Scribe Author</label>
+              <input type="text" id="book-author-input" placeholder="e.g. Master Barnaby" class="forge-input">
+            </div>
+
+            <div class="forge-input-group">
+              <label for="book-summary-input">Brief Summary</label>
+              <input type="text" id="book-summary-input" placeholder="One-line summary for shelf cards..." class="forge-input">
+            </div>
+
+            <div class="forge-input-group">
+              <label for="book-page1-input">Page 1 Content</label>
+              <textarea id="book-page1-input" placeholder="Write the first page narrative here..." class="forge-textarea" style="height: 100px;"></textarea>
+            </div>
+
+            <div class="forge-input-group">
+              <label for="book-page2-input">Page 2 Content</label>
+              <textarea id="book-page2-input" placeholder="Write the second page narrative here..." class="forge-textarea" style="height: 100px;"></textarea>
+            </div>
+
+            <button class="forge-submit-btn" id="scribe-submit-btn" style="border-color: var(--color-cyan); color: var(--color-cyan);">✦ Scribe Tome into Library ✦</button>
+          </div>
+          
+          <div class="scribe-bookmarks-pane">
+            <h3 class="font-fantasy text-gold">Bookmarked Favorites</h3>
+            <div class="bookmarks-list" id="bookmarks-shelf-list">
+              <p class="empty-codex-text">No library books favorited yet. Star books in the Library section to pin them here.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Kingdom Map -->
+  <section class="section-wrapper" id="map">
+    <div class="section-header">
+      <span class="section-subtitle">Cartography Portal</span>
+      <h2 class="section-title">Interactive Kingdom Map</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">Study the territorial layout of the Arcane Realm. Zoom into magical territories to unlock ancient historical logs.</p>
+    </div>
+
+    <div class="map-container-outer">
+      <div class="map-wrapper" style="background-image: url('assets/hero_castle.jpg'); opacity: 0.95;">
+        <!-- Interactive SVG map markers overlay -->
+        <svg class="map-svg-overlay" viewBox="0 0 1000 562">
+          
+          <!-- Route lines connecting places -->
+          <path d="M 500 220 Q 400 300, 250 250 T 150 420" fill="none" stroke="rgba(212, 175, 55, 0.4)" stroke-width="2" stroke-dasharray="8 6"/>
+          <path d="M 500 220 Q 650 150, 780 160 T 820 380" fill="none" stroke="rgba(212, 175, 55, 0.4)" stroke-width="2" stroke-dasharray="8 6"/>
+          <path d="M 500 220 L 520 440" fill="none" stroke="rgba(0, 240, 255, 0.4)" stroke-width="2" stroke-dasharray="8 6"/>
+
+          <!-- Marker 1: Royal Castle (Center-ish) -->
+          <g class="map-marker" id="marker-castle" transform="translate(500, 220)">
+            <circle class="marker-pulse" r="25"/>
+            <path class="marker-pin" d="M0,0 C-10,-10 -15,-25 0,-35 C15,-25 10,-10 0,0 Z"/>
+            <circle cx="0" cy="-24" r="5" fill="#d4af37"/>
+            <text class="map-marker-text" y="-45">Royal Castle</text>
+          </g>
+
+          <!-- Marker 2: Enchanted Forest (Left) -->
+          <g class="map-marker" id="marker-forest" transform="translate(250, 250)">
+            <circle class="marker-pulse" r="25" style="animation-delay: 0.5s; stroke: #10b981;"/>
+            <path class="marker-pin" d="M0,0 C-10,-10 -15,-25 0,-35 C15,-25 10,-10 0,0 Z" style="stroke: #10b981;"/>
+            <circle cx="0" cy="-24" r="5" fill="#10b981"/>
+            <text class="map-marker-text" y="-45">Enchanted Forest</text>
+          </g>
+
+          <!-- Marker 3: Dragon Mountains (Top Right) -->
+          <g class="map-marker" id="marker-mountains" transform="translate(780, 160)">
+            <circle class="marker-pulse" r="25" style="animation-delay: 1s; stroke: #ef4444;"/>
+            <path class="marker-pin" d="M0,0 C-10,-10 -15,-25 0,-35 C15,-25 10,-10 0,0 Z" style="stroke: #ef4444;"/>
+            <circle cx="0" cy="-24" r="5" fill="#ef4444"/>
+            <text class="map-marker-text" y="-45">Dragon Mountains</text>
+          </g>
+
+          <!-- Marker 4: Hidden Caves (Bottom Left) -->
+          <g class="map-marker" id="marker-caves" transform="translate(150, 420)">
+            <circle class="marker-pulse" r="25" style="animation-delay: 0.7s; stroke: #8b5cf6;"/>
+            <path class="marker-pin" d="M0,0 C-10,-10 -15,-25 0,-35 C15,-25 10,-10 0,0 Z" style="stroke: #8b5cf6;"/>
+            <circle cx="0" cy="-24" r="5" fill="#8b5cf6"/>
+            <text class="map-marker-text" y="-45">Hidden Caves</text>
+          </g>
+
+          <!-- Marker 5: Wizard Academy (Bottom Center) -->
+          <g class="map-marker" id="marker-wizard-academy" transform="translate(520, 440)">
+            <circle class="marker-pulse" r="25" style="animation-delay: 0.3s; stroke: #00f0ff;"/>
+            <path class="marker-pin" d="M0,0 C-10,-10 -15,-25 0,-35 C15,-25 10,-10 0,0 Z" style="stroke: #00f0ff;"/>
+            <circle cx="0" cy="-24" r="5" fill="#00f0ff"/>
+            <text class="map-marker-text" y="-45">Wizard Academy</text>
+          </g>
+
+          <!-- Marker 6: Mystic Lake (Bottom Right) -->
+          <g class="map-marker" id="marker-lake" transform="translate(820, 380)">
+            <circle class="marker-pulse" r="25" style="animation-delay: 1.2s; stroke: #3b82f6;"/>
+            <path class="marker-pin" d="M0,0 C-10,-10 -15,-25 0,-35 C15,-25 10,-10 0,0 Z" style="stroke: #3b82f6;"/>
+            <circle cx="0" cy="-24" r="5" fill="#3b82f6"/>
+            <text class="map-marker-text" y="-45">Mystic Lake</text>
+          </g>
+
+        </svg>
+
+        <!-- HUD Information Panel -->
+        <div class="map-hud glass-panel" id="map-hud">
+          <div class="map-hud-header">
+            <h4 id="hud-title">Select Region</h4>
+            <button class="hud-close-btn" id="hud-close" title="Close Panel">✕</button>
+          </div>
+          <div class="map-hud-body">
+            <p id="hud-desc">Hover or click a pulsing map node to call forth spatial radar files, coordinate lines, and historical archives.</p>
+            <div class="map-hud-coordinates">COORDS: <span id="hud-coords">--- / ---</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Wizard Character Hall Section -->
+  <section class="section-wrapper" id="characters">
+    <div class="section-header">
+      <span class="section-subtitle">Chamber of Legends</span>
+      <h2 class="section-title">Wizard Character Hall</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">Observe the legendary figures who guard the borders of the kingdom and preserve forbidden arcana.</p>
+    </div>
+
+    <div class="character-grid">
+      <!-- Character 1: Grand Wizard -->
+      <div class="character-card char-wiz" data-magic="99" data-strength="50" data-intelligence="98" data-defense="75" data-leadership="92">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_wizard.png" alt="Grand Wizard Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Grand Wizard</span>
+              <h3 class="character-name">Archmage Ignis</h3>
+              <p class="character-bio">Master of chronomancy and elemental portals. Has guarded the library archives for over two centuries.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>99%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 99%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>50%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 50%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>98%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 98%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>75%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 75%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>92%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 92%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 2: Warrior Guardian -->
+      <div class="character-card char-war" data-magic="40" data-strength="98" data-intelligence="75" data-defense="92" data-leadership="95">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_warrior.png" alt="Warrior Guardian Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Warrior Guardian</span>
+              <h3 class="character-name">Commander Aurelia</h3>
+              <p class="character-bio">Leader of the Citadel Paladins. Armed with an obsidian claymore infused with starlight magic.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>40%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 40%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>98%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 98%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>75%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 75%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>92%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 92%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>95%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 95%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 3: Forest Mage -->
+      <div class="character-card char-for" data-magic="92" data-strength="48" data-intelligence="95" data-defense="80" data-leadership="70">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_mage.png" alt="Forest Mage Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Forest Mage</span>
+              <h3 class="character-name">Sage Sylvan</h3>
+              <p class="character-bio">Guardian of the whispering roots. Uses plant alchemy to cure corrupt curses and manifest plant defenses.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>92%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 92%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>48%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 48%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>95%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 95%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>80%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 80%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>70%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 70%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 4: Dragon Rider -->
+      <div class="character-card char-dra" data-magic="80" data-strength="92" data-intelligence="82" data-defense="85" data-leadership="99">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_rider.png" alt="Dragon Rider Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Dragon Rider</span>
+              <h3 class="character-name">Valerius & Ignis</h3>
+              <p class="character-bio">Air marshal of the dragon peaks. Bound to a legendary ancient shadow dragon since childhood.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>80%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 80%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>92%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 92%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>82%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 82%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>85%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 85%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>99%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 99%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 5: Shadow Sorcerer -->
+      <div class="character-card char-sha" data-magic="95" data-strength="55" data-intelligence="92" data-defense="78" data-leadership="65">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_shadow.png" alt="Shadow Sorcerer Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Shadow Sorcerer</span>
+              <h3 class="character-name">Malakor the Silent</h3>
+              <p class="character-bio">Master of forbidden shadow magic. Can open rifts and summon shadows to scout unknown lands.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>95%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 95%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>55%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 55%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>92%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 92%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>78%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 78%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>65%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 65%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 6: Crystal Sage -->
+      <div class="character-card char-cry" data-magic="88" data-strength="40" data-intelligence="98" data-defense="85" data-leadership="72">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_crystal.png" alt="Crystal Sage Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Crystal Sage</span>
+              <h3 class="character-name">Chronos Sapphire</h3>
+              <p class="character-bio">Guardian of raw crystal caverns. Can amplify spells using crystal prisms and heal deep wounds.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>88%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 88%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>40%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 40%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>98%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 98%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>85%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 85%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>72%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 72%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 7: Phoenix Priestess -->
+      <div class="character-card char-phx" data-magic="92" data-strength="58" data-intelligence="90" data-defense="86" data-leadership="88">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_phoenix.png" alt="Phoenix Priestess Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Phoenix Priestess</span>
+              <h3 class="character-name">High Priestess Tahlia</h3>
+              <p class="character-bio">Keeper of the sacred eternal flame. Capable of cellular rebirth, flame heals, and radiant shields.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>92%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 92%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>58%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 58%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>90%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 90%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>86%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 86%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>88%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 88%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 8: Frost Monarch -->
+      <div class="character-card char-fro" data-magic="90" data-strength="85" data-intelligence="82" data-defense="95" data-leadership="90">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_frost.png" alt="Frost Monarch Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Frost Monarch</span>
+              <h3 class="character-name">King Boreas</h3>
+              <p class="character-bio">Sovereign of the winter plains. Commands ice blizzards, conjures frost barriers, and crystallizes enemies.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>90%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 90%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>85%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 85%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>82%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 82%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>95%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 95%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>90%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 90%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 9: Storm Caller -->
+      <div class="character-card char-sto" data-magic="94" data-strength="68" data-intelligence="86" data-defense="80" data-leadership="85">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_storm.png" alt="Storm Caller Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Storm Caller</span>
+              <h3 class="character-name">Raiden Skyborn</h3>
+              <p class="character-bio">Arbiter of weather and storms. Manifests chain lightning and high wind gusts.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>94%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 94%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>68%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 68%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>86%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 86%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>80%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 80%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>85%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 85%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 10: Time Keeper -->
+      <div class="character-card char-tim" data-magic="96" data-strength="45" data-intelligence="99" data-defense="82" data-leadership="75">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_time.png" alt="Time Keeper Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Time Keeper</span>
+              <h3 class="character-name">Master Tempus</h3>
+              <p class="character-bio">Ancient chronos keeper. Slows nearby coordinates and operates time loop anchors.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>96%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 96%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>45%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 45%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>99%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 99%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>82%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 82%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>75%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 75%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 11: Moonlight Oracle -->
+      <div class="character-card char-ora" data-magic="93" data-strength="35" data-intelligence="97" data-defense="76" data-leadership="80">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_oracle.png" alt="Moonlight Oracle Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Moonlight Oracle</span>
+              <h3 class="character-name">Lady Lunaria</h3>
+              <p class="character-bio">Seer of stellar prophecies and destiny. Receives lunar visions and channels moonlight beams.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>93%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 93%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>35%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 35%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>97%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 97%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>76%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 76%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>80%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 80%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character 12: Beastmaster Ranger -->
+      <div class="character-card char-ran" data-magic="82" data-strength="88" data-intelligence="84" data-defense="85" data-leadership="92">
+        <div class="character-card-inner">
+          <div class="character-image-container">
+            <img src="assets/char_ranger.png" alt="Beastmaster Ranger Portrait" class="character-img">
+            <div class="character-card-overlay"></div>
+            <div class="character-info-panel">
+              <span class="character-role">Beastmaster Ranger</span>
+              <h3 class="character-name">Hunter Sylvanas</h3>
+              <p class="character-bio">Guardian of mystical beasts. Communicates with elder creatures and channels earth vigor.</p>
+              <div class="character-stats-list">
+                <div class="stat-item"><div class="stat-header"><span>Magic</span><span>82%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 82%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Strength</span><span>88%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 88%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Intelligence</span><span>84%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 84%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Defense</span><span>85%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 85%;"></div></div></div>
+                <div class="stat-item"><div class="stat-header"><span>Leadership</span><span>92%</span></div><div class="stat-bar-container"><div class="stat-bar-fill" style="--stat-val: 92%;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Magical Library Experience Section -->
+  <section class="section-wrapper" id="library">
+    <div class="section-header">
+      <span class="section-subtitle">Chamber of Codexes</span>
+      <h2 class="section-title">Magical Library</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">Open the forbidden vaults of knowledge. Explore historical logs, arcane spells, and alchemical blueprints.</p>
+    </div>
+
+    <div class="library-books-row" id="library-books-shelf">
+      <!-- Book 1 -->
+      <div class="book-card" id="book-1">
+        <div class="book-card-inner glass-panel">
+          <div class="book-glow-aura"></div>
+          <div class="book-card-header">
+            <span class="book-category">Arcane Codex</span>
+            <span class="book-pages-count">144 pages</span>
+          </div>
+          <div class="book-visual-animation">
+            <div class="css-book">
+              <div class="book-cover"></div>
+              <div class="book-page-turning"></div>
+              <div class="book-pages"></div>
+            </div>
+          </div>
+          <div class="book-card-body">
+            <h3 class="book-title">The Chronomancy Codex</h3>
+            <p class="book-author">By Archmage Ignis</p>
+            <p class="book-summary">Understanding the manipulation of temporal spaces, local deceleration, and time loop anchors.</p>
+            <div style="display: flex; gap: 10px; z-index: 5; position: relative;">
+              <button class="book-read-btn" style="flex: 1;">✦ Read ✦</button>
+              <button class="book-bookmark-btn" data-book-id="book-1" title="Bookmark Tome" style="background: none; border: 1px solid var(--color-gold); color: var(--color-gold); padding: 0 12px; border-radius: 4px; cursor: pointer; transition: all 0.3s;">⭐</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book 2 -->
+      <div class="book-card" id="book-2">
+        <div class="book-card-inner glass-panel">
+          <div class="book-glow-aura" style="background: radial-gradient(circle, var(--color-cyan-glow) 0%, transparent 70%);"></div>
+          <div class="book-card-header">
+            <span class="book-category" style="color: var(--color-cyan); border-color: var(--color-cyan);">Lore logs</span>
+            <span class="book-pages-count">320 pages</span>
+          </div>
+          <div class="book-visual-animation">
+            <div class="css-book">
+              <div class="book-cover" style="background: linear-gradient(135deg, #1e3a8a, #0f172a); border-color: var(--color-cyan);"></div>
+              <div class="book-page-turning"></div>
+              <div class="book-pages"></div>
+            </div>
+          </div>
+          <div class="book-card-body">
+            <h3 class="book-title">Chronicles of Elder Wars</h3>
+            <p class="book-author">By Scribe Barnaby</p>
+            <p class="book-summary">Historical accounts of the war between paladins and the shadow void lords in the ancient kingdom era.</p>
+            <div style="display: flex; gap: 10px; z-index: 5; position: relative;">
+              <button class="book-read-btn" style="color: var(--color-cyan); border-color: var(--color-cyan); flex: 1;">✦ Read ✦</button>
+              <button class="book-bookmark-btn" data-book-id="book-2" title="Bookmark Tome" style="background: none; border: 1px solid var(--color-cyan); color: var(--color-cyan); padding: 0 12px; border-radius: 4px; cursor: pointer; transition: all 0.3s;">⭐</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book 3 -->
+      <div class="book-card" id="book-3">
+        <div class="book-card-inner glass-panel">
+          <div class="book-glow-aura" style="background: radial-gradient(circle, var(--color-emerald-glow) 0%, transparent 70%);"></div>
+          <div class="book-card-header">
+            <span class="book-category" style="color: var(--color-emerald); border-color: var(--color-emerald);">Alchemy</span>
+            <span class="book-pages-count">88 pages</span>
+          </div>
+          <div class="book-visual-animation">
+            <div class="css-book">
+              <div class="book-cover" style="background: linear-gradient(135deg, #064e3b, #022c22); border-color: var(--color-emerald);"></div>
+              <div class="book-page-turning"></div>
+              <div class="book-pages"></div>
+            </div>
+          </div>
+          <div class="book-card-body">
+            <h3 class="book-title">Granger's Elixirs Guide</h3>
+            <p class="book-author">By Sage Sylvan</p>
+            <p class="book-summary">Recipes for crafting mana buffers, stamina speed tonics, and glowing sight potions from magical flora.</p>
+            <div style="display: flex; gap: 10px; z-index: 5; position: relative;">
+              <button class="book-read-btn" style="color: var(--color-emerald); border-color: var(--color-emerald); flex: 1;">✦ Read ✦</button>
+              <button class="book-bookmark-btn" data-book-id="book-3" title="Bookmark Tome" style="background: none; border: 1px solid var(--color-emerald); color: var(--color-emerald); padding: 0 12px; border-radius: 4px; cursor: pointer; transition: all 0.3s;">⭐</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Royal Fantasy Marketplace Section -->
+  <section class="section-wrapper" id="marketplace">
+    <div class="section-header">
+      <span class="section-subtitle">Treasury Office</span>
+      <h2 class="section-title">Royal Fantasy Marketplace</h2>
+      <div class="section-divider"></div>
+      <p class="section-desc">Spend your gold coins earned from quests on legendary artifacts, glowing staffs, and ancient scrolls.</p>
+    </div>
+
+    <!-- Filter HUD & Wallet display -->
+    <div class="market-filters">
+      <button class="filter-btn active" data-filter="all">All Items</button>
+      <button class="filter-btn" data-filter="staff">Staffs</button>
+      <button class="filter-btn" data-filter="crystal">Crystals</button>
+      <button class="filter-btn" data-filter="book">Spell Books</button>
+      <button class="filter-btn" data-filter="weapon">Weapons</button>
+      <button class="filter-btn" data-filter="artifact">Artifacts</button>
+      
+      <div class="market-wallet-hud">
+        <svg class="wallet-coin-svg" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="6"/>
+          <path d="M12 9v6M10 12h4"/>
+        </svg>
+        <span id="wallet-balance">250</span> Gold
+      </div>
+    </div>
+
+    <div class="market-grid" id="market-grid">
+      <!-- Item 1: Ancient Magic Staff -->
+      <div class="market-item-card" data-category="staff" data-price="120" data-rarity="legendary">
+        <div class="market-card-inner glass-panel rarity-legendary">
+          <span class="item-rarity-badge badge-legendary">Legendary</span>
+          <div class="item-visual-box">
+            <div class="item-atlas-crop" style="border-color: var(--color-rarity-legendary)">
+              <img src="assets/marketplace_items.png" alt="Ancient Magic Staff" class="item-img-sprite" style="object-position: 10% 20%; transform: scale(2);">
+            </div>
+          </div>
+          <div class="item-details-box">
+            <h3 class="item-name">Aetherius Archstaff</h3>
+            <p class="item-desc">Forged in a supernova star, this golden staff amplifies all chronomancy spells by 40%.</p>
+          </div>
+          <div class="item-action-row">
+            <div class="item-price">
+              <span>120</span> Gold
+            </div>
+            <button class="item-buy-btn">Acquire</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2: Enchanted Crystal -->
+      <div class="market-item-card" data-category="crystal" data-price="45" data-rarity="rare">
+        <div class="market-card-inner glass-panel rarity-rare">
+          <span class="item-rarity-badge badge-rare">Rare</span>
+          <div class="item-visual-box">
+            <div class="item-atlas-crop" style="border-color: var(--color-rarity-rare)">
+              <img src="assets/marketplace_items.png" alt="Enchanted Crystal" class="item-img-sprite" style="object-position: 80% 30%; transform: scale(2);">
+            </div>
+          </div>
+          <div class="item-details-box">
+            <h3 class="item-name">Mana Star Crystal</h3>
+            <p class="item-desc">A glowing cyan crystal shard containing 10,000 units of pure concentrated mana energy.</p>
+          </div>
+          <div class="item-action-row">
+            <div class="item-price">
+              <span>45</span> Gold
+            </div>
+            <button class="item-buy-btn">Acquire</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3: Spell Book -->
+      <div class="market-item-card" data-category="book" data-price="80" data-rarity="epic">
+        <div class="market-card-inner glass-panel rarity-epic">
+          <span class="item-rarity-badge badge-epic">Epic</span>
+          <div class="item-visual-box">
+            <div class="item-atlas-crop" style="border-color: var(--color-rarity-epic)">
+              <img src="assets/marketplace_items.png" alt="Spell Book" class="item-img-sprite" style="object-position: 40% 70%; transform: scale(2);">
+            </div>
+          </div>
+          <div class="item-details-box">
+            <h3 class="item-name">Incinerate Spell Grimoire</h3>
+            <p class="item-desc">Unlocks the legendary Tier-5 Incineration circle spell. Requires Level 50 magic.</p>
+          </div>
+          <div class="item-action-row">
+            <div class="item-price">
+              <span>80</span> Gold
+            </div>
+            <button class="item-buy-btn">Acquire</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 4: Legendary Weapon -->
+      <div class="market-item-card" data-category="weapon" data-price="150" data-rarity="legendary">
+        <div class="market-card-inner glass-panel rarity-legendary">
+          <span class="item-rarity-badge badge-legendary">Legendary</span>
+          <div class="item-visual-box">
+            <div class="item-atlas-crop" style="border-color: var(--color-rarity-legendary)">
+              <img src="assets/marketplace_items.png" alt="Legendary Weapon" class="item-img-sprite" style="object-position: 70% 80%; transform: scale(2.2);">
+            </div>
+          </div>
+          <div class="item-details-box">
+            <h3 class="item-name">Aurelia's Star Sabre</h3>
+            <p class="item-desc">Golden broadsword imbued with pure star radiation. Deals heavy radiant slash damage.</p>
+          </div>
+          <div class="item-action-row">
+            <div class="item-price">
+              <span>150</span> Gold
+            </div>
+            <button class="item-buy-btn">Acquire</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 5: Mystic Artifact -->
+      <div class="market-item-card" data-category="artifact" data-price="60" data-rarity="epic">
+        <div class="market-card-inner glass-panel rarity-epic">
+          <span class="item-rarity-badge badge-epic">Epic</span>
+          <div class="item-visual-box">
+            <div class="item-atlas-crop" style="border-color: var(--color-rarity-epic)">
+              <img src="assets/marketplace_items.png" alt="Mystic Artifact" class="item-img-sprite" style="object-position: 20% 80%; transform: scale(2);">
+            </div>
+          </div>
+          <div class="item-details-box">
+            <h3 class="item-name">Dragon Fire Amulet</h3>
+            <p class="item-desc">A protective talisman carved from ruby that protects the wearer from all dragon flame breath.</p>
+          </div>
+          <div class="item-action-row">
+            <div class="item-price">
+              <span>60</span> Gold
+            </div>
+            <button class="item-buy-btn">Acquire</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 6: Common Reagent -->
+      <div class="market-item-card" data-category="artifact" data-price="15" data-rarity="common">
+        <div class="market-card-inner glass-panel rarity-common">
+          <span class="item-rarity-badge badge-common">Common</span>
+          <div class="item-visual-box">
+            <div class="item-atlas-crop" style="border-color: var(--color-rarity-common)">
+              <img src="assets/marketplace_items.png" alt="Common Reagent" class="item-img-sprite" style="object-position: 90% 90%; transform: scale(2);">
+            </div>
+          </div>
+          <div class="item-details-box">
+            <h3 class="item-name">Fluorescent Moss</h3>
+            <p class="item-desc">Basic glowing green plant matter harvested from deep caves. Used for basic health potions.</p>
+          </div>
+          <div class="item-action-row">
+            <div class="item-price">
+              <span>15</span> Gold
+            </div>
+            <button class="item-buy-btn">Acquire</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive 3D Book Reading Modal -->
+  <div class="modal-overlay" id="library-reader-modal">
+    <div class="modal-content-wrapper">
+      <button class="modal-close-btn" id="modal-close" title="Close Reader">✕</button>
+      <div class="modal-book-layout">
+        
+        <!-- Left Page -->
+        <div class="modal-book-page" id="page-left">
+          <div>
+            <h3 id="book-modal-title">Tome Title</h3>
+            <p id="book-modal-text-1">Content goes here...</p>
+          </div>
+          <div class="modal-book-page-num" id="page-num-left">Page 1</div>
+        </div>
+
+        <!-- Right Page -->
+        <div class="modal-book-page" id="page-right">
+          <div>
+            <p id="book-modal-text-2">Content goes here...</p>
+          </div>
+          <div class="modal-book-page-num" id="page-num-right">Page 2</div>
+
+          <!-- Bottom navigation triggers inside pages -->
+          <div class="modal-page-nav-row">
+            <button class="page-nav-btn" id="btn-prev-page">← Previous</button>
+            <button class="page-nav-btn" id="btn-next-page">Next →</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-info">
+        <div class="footer-brand">
+          <svg class="nav-logo-svg" viewBox="0 0 100 100" style="width: 35px; height: 35px;">
+            <polygon points="50,10 90,85 10,85" fill="none" stroke="#d4af37" stroke-width="4"/>
+            <circle cx="50" cy="55" r="22" fill="none" stroke="#00f0ff" stroke-width="3"/>
+          </svg>
+          <h3>Arcane Academy</h3>
+        </div>
+        <p>A cinematic web experience of medieval kingdoms, legendary sorcerers, and forbidden libraries. Embark on a grand magical journey.</p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Academy Links</h4>
+        <ul>
+          <li><a href="#hero">Home Castle</a></li>
+          <li><a href="#academy">Spell Chambers</a></li>
+          <li><a href="#map">Kingdom Map</a></li>
+          <li><a href="#characters">Character Hall</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Treasury Links</h4>
+        <ul>
+          <li><a href="#library">Codex Vault</a></li>
+          <li><a href="#marketplace">Market Bazaar</a></li>
+          <li><a href="#">Quest Board</a></li>
+          <li><a href="#">Privacy Spells</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Arcane Kingdom Academy. All magic circles reserved. Synthesized dynamically in Web Audio API.</p>
+      <div class="footer-socials">
+        <button class="social-icon-btn" title="Realm Chime">🕭</button>
+        <button class="social-icon-btn" title="Kingdom Scroll">📜</button>
+        <button class="social-icon-btn" title="Paladin Forge">⚔</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Destiny Choice Screen (Character Selector) -->
+  <div id="destiny-overlay" class="modal-overlay" style="display: none;">
+    <div class="destiny-card glass-panel">
+      <h2 class="font-fantasy text-gold">Choose Your Destiny</h2>
+      <p class="destiny-intro">Scribe your name and bind your magical class to the realm records of the Arcane Kingdom.</p>
+      
+      <div class="destiny-form-row">
+        <label for="destiny-name">Student Name:</label>
+        <input type="text" id="destiny-name" class="destiny-input" placeholder="Enter wizard name..." maxlength="16" value="Mage Apprentice">
+      </div>
+
+      <!-- Choose House -->
+      <h3 class="font-fantasy text-cyan">Magical Houses</h3>
+      <div class="house-selection-grid">
+        <div class="house-option active" data-house="Ignis">
+          <span class="house-sigil">🔥</span>
+          <h4>Ignis</h4>
+          <p>House of Fire & Alchemy</p>
+        </div>
+        <div class="house-option" data-house="Aethelgard">
+          <span class="house-sigil">❄️</span>
+          <h4>Aethelgard</h4>
+          <p>House of Frost & Shields</p>
+        </div>
+        <div class="house-option" data-house="Shadowfen">
+          <span class="house-sigil">💀</span>
+          <h4>Shadowfen</h4>
+          <p>House of Void & Runes</p>
+        </div>
+        <div class="house-option" data-house="Sylvanwood">
+          <span class="house-sigil">🍃</span>
+          <h4>Sylvanwood</h4>
+          <p>House of Nature & Beasts</p>
+        </div>
+      </div>
+
+      <!-- Choose Class -->
+      <h3 class="font-fantasy text-gold">Magical Class</h3>
+      <div class="class-selection-grid">
+        <div class="class-option active" data-class="Mage">
+          <span class="class-icon">🪄</span>
+          <h4>Mage</h4>
+          <p>Weaver of spells & portals</p>
+        </div>
+        <div class="class-option" data-class="Warrior">
+          <span class="class-icon">⚔️</span>
+          <h4>Warrior</h4>
+          <p>Defender of star sabres</p>
+        </div>
+        <div class="class-option" data-class="Ranger">
+          <span class="class-icon">🏹</span>
+          <h4>Ranger</h4>
+          <p>Keeper of nature & beasts</p>
+        </div>
+        <div class="class-option" data-class="Oracle">
+          <span class="class-icon">🔮</span>
+          <h4>Oracle</h4>
+          <p>Seer of lunar destinies</p>
+        </div>
+        <div class="class-option" data-class="Alchemist">
+          <span class="class-icon">🧪</span>
+          <h4>Alchemist</h4>
+          <p>Brewer of volatile reagents</p>
+        </div>
+        <div class="class-option" data-class="Dragon Rider">
+          <span class="class-icon">🐉</span>
+          <h4>Dragon Rider</h4>
+          <p>Sky warrior of peaks</p>
+        </div>
+      </div>
+
+      <button class="confirm-destiny-btn" id="confirm-destiny-btn">✦ Bind Soul to Kingdom ✦</button>
+    </div>
+  </div>
+
+  <!-- API Key Config Modal -->
+  <div class="modal-overlay" id="api-config-modal">
+    <div class="modal-content-wrapper" style="max-width: 500px; height: auto; min-height: 250px;">
+      <button class="modal-close-btn" id="api-modal-close" title="Close">✕</button>
+      <div class="glass-panel" style="padding: 30px; height: 100%;">
+        <h3 class="font-fantasy text-gold" style="margin-bottom: 15px;">Configure Gemini AI Key</h3>
+        <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 20px; line-height: 1.5;">
+          Aetherion is powered by the **Gemini 1.5 Flash** model. To talk to him live, input your API key. Keys are saved securely in your browser's local cache. 
+          <br><br>
+          Get a free key from <a href="https://aistudio.google.com/" target="_blank" style="color: var(--color-cyan);">Google AI Studio</a>. If left blank, offline responses will be used.
+        </p>
+        <div class="forge-input-group">
+          <input type="password" id="gemini-key-input" placeholder="AIzaSy..." class="forge-input" style="letter-spacing: 2px;">
+        </div>
+        <button class="confirm-destiny-btn" id="save-api-key-btn" style="margin-top: 15px;">✦ Save API Credentials ✦</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inventory Drawer Modal -->
+  <div class="modal-overlay" id="inventory-modal">
+    <div class="modal-content-wrapper" style="max-width: 550px; height: auto; min-height: 380px;">
+      <button class="modal-close-btn" id="inventory-modal-close" title="Close">✕</button>
+      <div class="glass-panel" style="padding: 30px; height: 100%;">
+        <h3 class="font-fantasy text-gold" style="margin-bottom: 15px;">Student Treasury Chest</h3>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">Collected relics and scrolls that trace your lineage inside the Academy.</p>
+        
+        <div class="inventory-stat-block" style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 15px; margin-bottom: 20px;">
+          <div class="inv-stat"><strong>Magical Class:</strong> <span id="inv-class" class="text-cyan">Mage</span></div>
+          <div class="inv-stat"><strong>Magical House:</strong> <span id="inv-house" class="text-gold">Ignis</span></div>
+          <div class="inv-stat"><strong>Gold Coins:</strong> <span id="inv-gold" class="text-gold">250 Gold</span></div>
+        </div>
+
+        <h4 class="font-fantasy text-cyan" style="font-size: 1rem; margin-bottom: 15px;">Relics & Artifacts</h4>
+        <div class="inventory-grid-relics" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+          <!-- Crystal of Wisdom -->
+          <div class="relic-item locked" id="relic-crystal" style="padding: 15px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.5;">
+            <span class="relic-icon" style="font-size: 1.8rem; margin-bottom: 5px;">💎</span>
+            <h5 class="font-fantasy">Crystal of Wisdom</h5>
+            <span class="relic-status" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px;">Locked</span>
+          </div>
+
+          <!-- Phoenix Feather -->
+          <div class="relic-item locked" id="relic-feather" style="padding: 15px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.5;">
+            <span class="relic-icon" style="font-size: 1.8rem; margin-bottom: 5px;">🪶</span>
+            <h5 class="font-fantasy">Phoenix Feather</h5>
+            <span class="relic-status" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px;">Locked</span>
+          </div>
+
+          <!-- Dragon Scale -->
+          <div class="relic-item locked" id="relic-scale" style="padding: 15px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.5;">
+            <span class="relic-icon" style="font-size: 1.8rem; margin-bottom: 5px;">🛡️</span>
+            <h5 class="font-fantasy">Dragon Scale</h5>
+            <span class="relic-status" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px;">Locked</span>
+          </div>
+
+          <!-- Rune Stone -->
+          <div class="relic-item locked" id="relic-rune" style="padding: 15px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.5;">
+            <span class="relic-icon" style="font-size: 1.8rem; margin-bottom: 5px;">🪨</span>
+            <h5 class="font-fantasy">Rune Stone</h5>
+            <span class="relic-status" style="font-size: 0.75rem; color: #ef4444; margin-top: 4px;">Locked</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Code Scripts -->
+  <script src="audio.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
