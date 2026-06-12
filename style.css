@@ -2854,3 +2854,217 @@ h1, h2, h3, h4, .font-fantasy {
 .char-tim .character-card-inner:hover { border-color: #f59e0b; box-shadow: 0 0 25px rgba(245, 158, 11, 0.4), var(--glass-shadow); }
 .char-ora .character-card-inner:hover { border-color: #cbd5e1; box-shadow: 0 0 25px rgba(203, 213, 225, 0.4), var(--glass-shadow); }
 .char-ran .character-card-inner:hover { border-color: #10b981; box-shadow: 0 0 25px rgba(16, 185, 129, 0.4), var(--glass-shadow); }
+
+/* --- Mobile Responsiveness Enhancements --- */
+
+@media (max-width: 992px) {
+  .user-profile-hud {
+    margin-left: 10px;
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  #hud-username {
+    max-width: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Compact Profile HUD for Mobile Header */
+  .user-profile-hud {
+    max-width: 90px;
+    padding: 4px 6px;
+    margin-left: 4px;
+    gap: 6px;
+    background: rgba(9, 6, 22, 0.8);
+    border-color: rgba(212, 175, 55, 0.3);
+  }
+  .hud-stats {
+    display: none; /* Hide textual stats to fit wizard icon and backpack button */
+  }
+  .hud-avatar {
+    font-size: 1.4rem;
+  }
+  .inventory-toggle-btn {
+    font-size: 1.1rem;
+  }
+
+  /* Scrollable Interactive Map */
+  .map-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+  }
+  .map-wrapper:active {
+    cursor: grabbing;
+  }
+  .map-svg-overlay {
+    width: 900px; /* Force minimum canvas layout so markers stay large enough to tap */
+    height: auto;
+    max-width: none;
+  }
+
+  /* Library Book Modal layout adjustments */
+  .modal-content-wrapper {
+    width: 95vw;
+    height: 85vh;
+  }
+  .modal-book-page {
+    padding: 24px 20px;
+  }
+  .modal-book-page h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+  .modal-book-page p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Scrollable Tab Panels preventing overlapping */
+  .workspace-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+  }
+  .w-tab-btn {
+    flex: 0 0 auto;
+    padding: 14px 20px;
+    font-size: 0.85rem;
+  }
+
+  /* Scrollable Prompt Chips */
+  .chat-chips-row {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chat-chip-btn {
+    flex: 0 0 auto;
+    padding: 6px 12px;
+  }
+
+  /* Vertical Quest Items wrapping */
+  .quest-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    padding: 15px;
+  }
+  .quest-status {
+    gap: 15px;
+  }
+  .quest-icon {
+    font-size: 1.8rem;
+  }
+  .quest-details h4 {
+    font-size: 1rem;
+  }
+  .quest-details p {
+    font-size: 0.8rem;
+  }
+  .quest-reward {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 12px;
+    width: 100%;
+  }
+  .quest-reward span {
+    font-size: 0.8rem;
+  }
+  .claim-reward-btn {
+    padding: 6px 14px;
+    font-size: 0.7rem;
+  }
+
+  /* Compact Destiny Choice Form for Small Screens */
+  .destiny-card {
+    padding: 25px 15px;
+    width: 95vw;
+  }
+  .destiny-intro {
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+  }
+  .destiny-form-row {
+    margin-bottom: 20px;
+    padding: 8px 15px;
+  }
+  .destiny-form-row label {
+    font-size: 0.85rem;
+  }
+  .destiny-input {
+    font-size: 0.95rem;
+  }
+  .house-selection-grid,
+  .class-selection-grid {
+    grid-template-columns: repeat(2, 1fr); /* Force 2-columns icons */
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .house-option,
+  .class-option {
+    padding: 10px 5px;
+  }
+  .house-sigil,
+  .class-icon {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+  .house-option h4,
+  .class-option h4 {
+    font-size: 0.8rem;
+  }
+  .house-option p,
+  .class-option p {
+    display: none; /* Hide lengthy class details to save viewport height */
+  }
+  .confirm-destiny-btn {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  /* Marketplace filter & alignment wraps */
+  .market-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .market-wallet-hud {
+    align-self: center;
+    width: 100%;
+    justify-content: center;
+    background: rgba(9, 6, 22, 0.4);
+    border-radius: 4px;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .market-item-card {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* Characters Hall centered margins */
+  .character-card {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* Inventory Stats wraps */
+  .inventory-stat-block {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+}
+
