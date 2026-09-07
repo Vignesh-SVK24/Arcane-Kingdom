@@ -445,13 +445,29 @@ h1, h2, h3, h4, .font-fantasy {
   transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.hero-bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.65;
+  transform: scale(1.05);
+  z-index: 1;
+}
+
 .hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   opacity: 0.45;
   transform: scale(1.05);
   animation: slowZoom 30s infinite alternate ease-in-out;
+  z-index: 0;
 }
 
 .hero-fog {
